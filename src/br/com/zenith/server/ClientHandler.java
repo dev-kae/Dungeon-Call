@@ -53,11 +53,31 @@ public class ClientHandler implements Runnable {
                             server.logInfo("Jogador criado: " + player.getName());
                             server.broadcast(new Packet(PacketType.BROADCAST, "%s conectou-se.".formatted(name)), this);
                         }
+                        case DISCONNECT -> {
+                            if (player != null) {
+                                server.logInfo(
+                                        "Player %s desconectou-se.".formatted(player.getName())
+                                );
+
+                                server.broadcast(
+                                        new Packet(
+                                                PacketType.BROADCAST,
+                                                "%s desconectou-se.".formatted(player.getName())
+                                        ),
+                                        this
+                                );
+                            }
+
+                            this.connected = false;
+                        }
                     }
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
             connected = false;
+
+        } finally {
+            server.disconnectClient(this);
         }
     }
 

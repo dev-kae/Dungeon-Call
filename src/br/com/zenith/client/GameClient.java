@@ -47,19 +47,20 @@ public class GameClient {
         }
     }
 
-    public void createPlayer(String name) {
-        send(new Packet(PacketType.JOIN, name));
-    }
-
     public void disconnect() {
         try {
-            clientSocket.close();
-            IO.println("Desconectado com sucesso");
+            send(new Packet(PacketType.DISCONNECT, null));
             connected = false;
+            clientSocket.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+    public void createPlayer(String name) {
+        send(new Packet(PacketType.JOIN, name));
+    }
+
 
     public void send(Object packet) {
         try {
@@ -75,11 +76,7 @@ public class GameClient {
         try {
             while (connected) {
                 Object message = objectInputStream.readObject();
-                if (message instanceof Packet) {
-                    Packet packet = (Packet) message;
-                    IO.println("Mensagem recebida. " + packet);
-                }
-                }
+            }
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

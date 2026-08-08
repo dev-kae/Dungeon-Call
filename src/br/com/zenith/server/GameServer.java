@@ -31,12 +31,15 @@ public class GameServer {
     public void logInfo(String message) {
         logger.info(message);
     }
+
     public void logWarning(String message) {
         logger.warning(message);
     }
+
     public void logError(String message) {
         logger.error(message);
     }
+
     public void broadcast(Packet packet, ClientHandler except) throws IOException {
         for (ClientHandler client : clients) {
             if (client != except) {
@@ -44,7 +47,7 @@ public class GameServer {
             }
         }
     }
-    
+
     public void start() {
         logger.info("Iniciando servidor...");
 
@@ -76,6 +79,10 @@ public class GameServer {
                     "Nova conexão recebida: " + socket.getInetAddress().getHostAddress()
             );
         }
+    }
+
+    public void disconnectClient(ClientHandler client) {
+        clients.remove(client);
     }
 
     public void stop() {
