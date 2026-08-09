@@ -1,5 +1,6 @@
 package br.com.zenith.server;
 
+import br.com.zenith.domain.Player;
 import br.com.zenith.network.packet.Packet;
 import br.com.zenith.shared.ServerLogger;
 
@@ -16,14 +17,17 @@ public class GameServer {
     private boolean running;
     private ServerSocket serverSocket;
     private final List<ClientHandler> clients = new ArrayList<>();
+    private final GameState state;
 
-    public GameServer(ServerLogger logger) {
+    public GameServer(ServerLogger logger, GameState gameState) {
         this.logger = logger;
+        this.state = gameState;
     }
 
     public static void main(String[] args) {
         ServerLogger logger = new ServerLogger();
-        GameServer server = new GameServer(logger);
+        GameState gameState = new GameState();
+        GameServer server = new GameServer(logger, gameState);
 
         server.start();
     }
@@ -83,8 +87,21 @@ public class GameServer {
 
     public void disconnectClient(ClientHandler client) {
         clients.remove(client);
+
+        Player player = client.getPlayer();
+
+        if (player != null) {
+            removePlayer(player);
+        }
     }
 
+    public void addPlayer(Player player) {
+        state.addPlayer(player);
+    }
+
+    public void removePlayer(Player player) {
+        state.removePlayer(player);
+    }
     public void stop() {
         running = false;
 

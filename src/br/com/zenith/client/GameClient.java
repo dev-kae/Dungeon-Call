@@ -61,7 +61,6 @@ public class GameClient {
         send(new Packet(PacketType.JOIN, name));
     }
 
-
     public void send(Object packet) {
         try {
             logger.info("Enviando mensagem para o handler. " + packet);

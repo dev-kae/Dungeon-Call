@@ -50,6 +50,7 @@ public class ClientHandler implements Runnable {
                             String name = (String) data;
 
                             player = new Player(name);
+                            server.addPlayer(player);
                             server.logInfo("Jogador criado: " + player.getName());
                             server.broadcast(new Packet(PacketType.BROADCAST, "%s conectou-se.".formatted(name)), this);
                         }

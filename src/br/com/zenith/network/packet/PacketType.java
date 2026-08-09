@@ -2,8 +2,11 @@ package br.com.zenith.network.packet;
 
 public enum PacketType {
     JOIN,
-    BROADCAST,
-    CLICK,
-    MOVE,
-    DISCONNECT
+    DISCONNECT,
+
+    PLAYER_JOINED,
+    PLAYER_LEFT,
+    PLAYER_MOVED,
+
+    BROADCAST
 }
